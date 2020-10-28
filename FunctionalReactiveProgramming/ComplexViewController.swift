@@ -55,6 +55,7 @@ class ComplexViewController: UIViewController {
             .flatMap { self.networkService.requestPlusOne_RxSwift(input: $0) }
             .flatMap { self.networkService.requestPlusOne_RxSwift(input: $0) }
             .flatMap { self.networkService.requestPlusOne_RxSwift(input: $0) }
+            .retry(3)
             .subscribe { (event) in
                 switch event {
                 case .success(let output):
@@ -71,6 +72,7 @@ class ComplexViewController: UIViewController {
             .flatMap { self.networkService.requestPlusOne_Combine(input: $0) }
             .flatMap { self.networkService.requestPlusOne_Combine(input: $0) }
             .flatMap { self.networkService.requestPlusOne_Combine(input: $0) }
+            .retry(3)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
                 case .finished:
