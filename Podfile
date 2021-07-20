@@ -8,5 +8,6 @@ target 'FunctionalReactiveProgramming' do
   # Pods for FunctionalReactiveProgramming
   pod 'RxSwift'
   pod 'ReactiveSwift'
+  pod 'PromiseKit'
 
 end

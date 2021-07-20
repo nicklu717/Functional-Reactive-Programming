@@ -71,7 +71,7 @@ struct NetworkService {
                 default:
                     observer.send(.failed(.unexpected))
                 }
-            }
+            }.resume()
         }
     }
     

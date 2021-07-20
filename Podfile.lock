@@ -1,20 +1,32 @@
 PODS:
+  - PromiseKit (6.15.3):
+    - PromiseKit/CorePromise (= 6.15.3)
+    - PromiseKit/Foundation (= 6.15.3)
+    - PromiseKit/UIKit (= 6.15.3)
+  - PromiseKit/CorePromise (6.15.3)
+  - PromiseKit/Foundation (6.15.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.15.3):
+    - PromiseKit/CorePromise
   - ReactiveSwift (6.6.1)
   - RxSwift (5.1.1)
 
 DEPENDENCIES:
+  - PromiseKit
   - ReactiveSwift
   - RxSwift
 
 SPEC REPOS:
   trunk:
+    - PromiseKit
     - ReactiveSwift
     - RxSwift
 
 SPEC CHECKSUMS:
+  PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
   ReactiveSwift: fab34244ad908808dc822bae352a058c8837c4ca
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: cb7af582f66b627331b2c17be95577820c62d43b
+PODFILE CHECKSUM: c918f44ca34f83008f498b7b0509dde5c7c3eea8
 
 COCOAPODS: 1.9.3
