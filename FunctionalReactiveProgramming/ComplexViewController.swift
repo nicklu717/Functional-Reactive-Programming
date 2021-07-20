@@ -74,16 +74,12 @@ class ComplexViewController: UIViewController {
             .flatMap(.latest) { self.networkService.requestPlusOne_ReactiveSwift(input: $0) }
             .flatMap(.latest) { self.networkService.requestPlusOne_ReactiveSwift(input: $0) }
             .retry(upTo: 3)
-            .start { (event) in
-                switch event {
-                case .value(let output):
+            .startWithResult { (result) in
+                switch result {
+                case .success(let output):
                     print("ReactiveSwift: \(output)")
-                case .failed(let requestError):
+                case .failure(let requestError):
                     print("ReactiveSwift Error: \(requestError.rawValue)")
-                case .completed:
-                    break
-                case .interrupted:
-                    break
                 }
             }
         
