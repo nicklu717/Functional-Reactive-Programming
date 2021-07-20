@@ -42,6 +42,17 @@ class BasicViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        // MARK: - ReactiveSwift
+        networkService.requestPlusOne_ReactiveSwift(input: 1)
+            .startWithResult { (result) in
+                switch result {
+                case .success(let output):
+                    print("ReactiveSwift: \(output)")
+                case .failure(let requestError):
+                    print("Request Error: \(requestError.rawValue)")
+                }
+            }
+        
         // MARK: - Combine
         networkService.requestPlusOne_Combine(input: 1)
             .sink(receiveCompletion: { (completion) in

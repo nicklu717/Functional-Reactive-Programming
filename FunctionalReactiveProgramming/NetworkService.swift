@@ -5,8 +5,8 @@
 //  Created by 陸瑋恩 on 2020/10/25.
 //
 
-import Foundation
 import RxSwift
+import ReactiveSwift
 import Combine
 
 struct NetworkService {
@@ -21,7 +21,7 @@ struct NetworkService {
     
     // MARK: - Native
     func requestPlusOne_Native(input: Int, completion: @escaping (Result<Int, RequestError>) -> Void) {
-        URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let response = response as? HTTPURLResponse else { return }
             switch response.statusCode {
             case 200..<300:
@@ -38,8 +38,8 @@ struct NetworkService {
     
     // MARK: - RxSwift
     func requestPlusOne_RxSwift(input: Int) -> Single<Int> {
-        return Single.create { (observer) -> Disposable in
-            URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+        return Single.create { (observer) -> RxSwift.Disposable in
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard let response = response as? HTTPURLResponse else { return }
                 switch response.statusCode {
                 case 200..<300:
@@ -56,10 +56,29 @@ struct NetworkService {
         }
     }
     
+    // MARK: - ReactiveSwift
+    func requestPlusOne_ReactiveSwift(input: Int) -> SignalProducer<Int, RequestError> {
+        return SignalProducer<Int, RequestError> { (observer, lifetime) in
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                guard let response = response as? HTTPURLResponse else { return }
+                switch response.statusCode {
+                case 200..<300:
+                    observer.send(.value(input + 1))
+                case 400..<500:
+                    observer.send(.failed(.clientError))
+                case 500..<600:
+                    observer.send(.failed(.serverError))
+                default:
+                    observer.send(.failed(.unexpected))
+                }
+            }
+        }
+    }
+    
     // MARK: - Combine
     func requestPlusOne_Combine(input: Int) -> Future<Int, RequestError> {
         return Future { (promise) in
-            URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard let response = response as? HTTPURLResponse else { return }
                 switch response.statusCode {
                 case 200..<300:

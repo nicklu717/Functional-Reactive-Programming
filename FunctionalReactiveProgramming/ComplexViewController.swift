@@ -67,6 +67,25 @@ class ComplexViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        // MARK: - ReactiveSwift
+        networkService.requestPlusOne_ReactiveSwift(input: 1)
+            .flatMap(.latest) { self.networkService.requestPlusOne_ReactiveSwift(input: $0) }
+            .flatMap(.latest) { self.networkService.requestPlusOne_ReactiveSwift(input: $0) }
+            .flatMap(.latest) { self.networkService.requestPlusOne_ReactiveSwift(input: $0) }
+            .retry(upTo: 3)
+            .start { (event) in
+                switch event {
+                case .value(let output):
+                    print("ReactiveSwift: \(output)")
+                case .failed(let requestError):
+                    print("Request Error: \(requestError.rawValue)")
+                case .completed:
+                    break
+                case .interrupted:
+                    break
+                }
+            }
+        
         // MARK: - Combine
         networkService.requestPlusOne_Combine(input: 1)
             .flatMap { self.networkService.requestPlusOne_Combine(input: $0) }
