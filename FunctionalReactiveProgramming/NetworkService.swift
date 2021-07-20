@@ -8,6 +8,7 @@
 import RxSwift
 import ReactiveSwift
 import Combine
+import PromiseKit
 
 struct NetworkService {
     
@@ -20,7 +21,7 @@ struct NetworkService {
     private let url = URL(string: "https://google.com")!
     
     // MARK: - Native
-    func requestPlusOne_Native(input: Int, completion: @escaping (Result<Int, RequestError>) -> Void) {
+    func requestPlusOne_Native(input: Int, completion: @escaping (Swift.Result<Int, RequestError>) -> Void) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let response = response as? HTTPURLResponse else { return }
             switch response.statusCode {
@@ -89,6 +90,25 @@ struct NetworkService {
                     promise(.failure(.serverError))
                 default:
                     promise(.failure(.unexpected))
+                }
+            }.resume()
+        }
+    }
+    
+    // MARK: - Promise
+    func requestPlusOne_Promise(input: Int) -> Promise<Int> {
+        return Promise { (resolver) in
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                guard let response = response as? HTTPURLResponse else { return }
+                switch response.statusCode {
+                case 200..<300:
+                    resolver.fulfill(input + 1)
+                case 400..<500:
+                    resolver.reject(RequestError.clientError)
+                case 500..<600:
+                    resolver.reject(RequestError.serverError)
+                default:
+                    resolver.reject(RequestError.unexpected)
                 }
             }.resume()
         }

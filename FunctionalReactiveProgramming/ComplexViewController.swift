@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import Combine
+import PromiseKit
 
 class ComplexViewController: UIViewController {
     
@@ -103,5 +104,21 @@ class ComplexViewController: UIViewController {
                 print("Combine: \(output)")
             })
             .store(in: &cancellableSet)
+        
+        // MARK: - Promise
+        firstly {
+            networkService.requestPlusOne_Promise(input: 1)
+        }.then {
+            self.networkService.requestPlusOne_Promise(input: $0)
+        }.then {
+            self.networkService.requestPlusOne_Promise(input: $0)
+        }.then {
+            self.networkService.requestPlusOne_Promise(input: $0)
+        }.done {
+            print("Promise: \($0)")
+        }.catch {
+            guard let requestError = $0 as? NetworkService.RequestError else { return }
+            print("Promise Error: \(requestError.rawValue)")
+        }
     }
 }
