@@ -1,16 +1,20 @@
 PODS:
+  - ReactiveSwift (6.6.1)
   - RxSwift (5.1.1)
 
 DEPENDENCIES:
+  - ReactiveSwift
   - RxSwift
 
 SPEC REPOS:
   trunk:
+    - ReactiveSwift
     - RxSwift
 
 SPEC CHECKSUMS:
+  ReactiveSwift: fab34244ad908808dc822bae352a058c8837c4ca
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: aac5b34f70d831c5b76c5b087ffe3d390a069720
+PODFILE CHECKSUM: cb7af582f66b627331b2c17be95577820c62d43b
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3
