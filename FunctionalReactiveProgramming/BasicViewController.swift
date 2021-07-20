@@ -25,7 +25,7 @@ class BasicViewController: UIViewController {
             case .success(let output):
                 print("Native: \(output)")
             case .failure(let requestError):
-                print("Request Error: \(requestError.rawValue)")
+                print("Native Error: \(requestError.rawValue)")
             }
         }
         
@@ -37,7 +37,7 @@ class BasicViewController: UIViewController {
                     print("RxSwift: \(output)")
                 case .error(let error):
                     guard let requestError = error as? NetworkService.RequestError else { return }
-                    print("Request Error: \(requestError.rawValue)")
+                    print("RxSwift Error: \(requestError.rawValue)")
                 }
             }
             .disposed(by: disposeBag)
@@ -49,7 +49,7 @@ class BasicViewController: UIViewController {
                 case .success(let output):
                     print("ReactiveSwift: \(output)")
                 case .failure(let requestError):
-                    print("Request Error: \(requestError.rawValue)")
+                    print("ReactiveSwift Error: \(requestError.rawValue)")
                 }
             }
         
@@ -60,7 +60,7 @@ class BasicViewController: UIViewController {
                 case .finished:
                     break
                 case .failure(let requestError):
-                    print("Request Error: \(requestError.rawValue)")
+                    print("Combine Error: \(requestError.rawValue)")
                 }
             }, receiveValue: { (output) in
                 print("Combine: \(output)")
